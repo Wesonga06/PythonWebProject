@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - Wendy's Blog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="card">
+        <h1>Join Wendy's Blog!</h1>
+        
+        <form method="POST">
+            <input type="text" name="username" placeholder="Choose a username" required>
+            
+            <div class="password-container">
+                <input type="password" name="password" id="passwordField" placeholder="Choose a password" required>
+                <span class="toggle-password" onclick="togglePassword()">👁️</span>
+            </div>
+            
+            <button type="submit">Create Account</button>
+        </form>
+        
+        <p>Already have an account? <br> <a href="/login">Log in here</a></p>
+    </div>
+
+    <script>
+        function togglePassword() {
+            // 1. Find the password box on the page
+            const passwordField = document. document.getElementById("passwordField");
+            
+            // 2. If it's currently hidden, show it
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } 
+            // 3. Otherwise, hide it again
+            else {
+                passwordField.type = "password";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap');
+
+/* --- GENERAL BLOGGY STYLES --- */
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: #f9fbf9; /* Very subtle greenish-off-white */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif; /* Elegant serif font for headings */
+    color: #1a1a1a;
+}
+
+a {
+    color: #4CAF50; /* Wendy's Green! */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #2E7D32; /* Darker green on hover */
+}
+
+/* --- HEADER & NAVIGATION --- */
+.blog-header {
+    text-align: center;
+    padding: 40px 20px 20px;
+    background: white;
+}
+
+.blog-header h1 {
+    font-size: 48px;
+    letter-spacing: 2px;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+}
+
+.blog-header p {
+    color: #888;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.blog-nav {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 15px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    background: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+/* --- THE TWO-COLUMN LAYOUT --- */
+.blog-container {
+    display: flex;
+    max-width: 1100px;
+    margin: 40px auto;
+    gap: 40px;
+    padding: 0 20px;
+}
+
+.main-content {
+    flex: 2; /* Takes up 2/3 of the space */
+}
+
+.sidebar {
+    flex: 1; /* Takes up 1/3 of the space */
+}
+
+/* --- POST STYLES --- */
+.post {
+    background: white;
+    margin-bottom: 40px;
+    border: 1px solid #eaeaea;
+}
+
+.post-image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover; /* Keeps image proportions nice */
+}
+
+.post-content {
+    padding: 30px;
+}
+
+.post-meta {
+    font-size: 12px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.post-title {
+    font-size: 28px;
+    margin: 0 0 15px 0;
+}
+
+.read-more-btn {
+    display: inline-block;
+    border: 2px solid #4CAF50; /* Green border */
+    color: #4CAF50;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.read-more-btn:hover {
+    background: #4CAF50;
+    color: white;
+}
+
+/* --- SIDEBAR WIDGETS --- */
+.widget {
+    background: white;
+    padding: 30px;
+    border: 1px solid #eaeaea;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.widget h3 {
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 0;
+    border-bottom: 2px solid #4CAF50; /* Green underline */
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+/* --- FORMS (Keeping these for login/register pages) --- */
+.card {
+    background: white; padding: 40px; border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 90%; max-width: 350px;
+    text-align: center; margin: 50px auto; /* Centered in the middle of the screen */
+}
+input, textarea {
+    width: 100%; padding: 14px; margin-bottom: 20px; font-size: 16px;
+    border-radius: 10px; border: 2px solid #eee; box-sizing: border-box;
+}
+input:focus, textarea:focus { outline: none; border-color: #4CAF50; } /* Green focus! */
+button[type="submit"] {
+    width: 100%; padding: 14px; font-size: 18px; font-weight: bold;
+    background: #4CAF50; color: white; border: none; border-radius: 10px; cursor: pointer;
+}
+button[type="submit"]:hover { background: #2E7D32; }

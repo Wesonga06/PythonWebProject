@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Python Site</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Welcome, {{ name }}!</h1>
+    
+    <p>Enter your name below to update the greeting.</p>
+    
+    <form method="POST">
+        <input type="text" name="username" placeholder="Type your name..." required>
+        <button type="submit">Update Name</button>
+    </form>
+    
+    <br><br>
+    <a href="/about">Click here to learn about me!</a>
+    
+    <hr>
+    <p>Copyright © {{ year }}</p>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wendy's Blog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="blog-header">
+        <h1>Wendy's Blog</h1>
+        <p>A little corner of the internet full of green and good vibes</p>
+    </header>
+
+    <nav class="blog-nav">
+        <a href="/feed" style="color: #4CAF50; border-bottom: 2px solid #4CAF50;">Home</a>
+        <a href="/create-post">Write Post</a>
+        <a href="#">About</a>
+        <a href="/logout">Log Out ({{ user.username }})</a>
+    </nav>
+
+    <div class="blog-container">
+        
+        <main class="main-content">
+            
+            {% for post in posts|reverse %} <article class="post">
+                    <img class="post-image" src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=800&q=80" alt="Blog Feature Image">
+                    
+                    <div class="post-content">
+                        <div class="post-meta">
+                            📅 {{ post.date_posted.strftime('%B %d, %Y') }} &nbsp; | &nbsp; 👤 BY {{ post.author.username }}
+                        </div>
+                        
+                        <h2 class="post-title">{{ post.title }}</h2>
+                        
+                        <p style="color: #666; line-height: 1.6;">
+                            {{ post.content[:150] }}...
+                        </p>
+                        
+                        <button class="read-more-btn">Continue Reading ➔</button>
+                    </div>
+                </article>
+            {% else %}
+                <div class="post">
+                    <div class="post-content">
+                        <h2>No posts yet!</h2>
+                        <p>Click "Write Post" in the navigation bar to get started.</p>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </main>
+
+        <aside class="sidebar">
+            
+            <div class="widget">
+                <h3>About Wendy</h3>
+                <img class="profile-pic" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80" alt="Wendy">
+                <p style="font-size: 14px; color: #666; line-height: 1.5;">
+                    Hi! I'm building my very first web application using Python, Flask, and a whole lot of green CSS. Thanks for stopping by!
+                </p>
+            </div>
+
+            <div class="widget">
+                <h3>Follow Me</h3>
+                <p style="font-size: 24px; letter-spacing: 10px;">
+                    <a href="#">📷</a> <a href="#">🐦</a> <a href="#">✉️</a>
+                </p>
+            </div>
+
+        </aside>
+
+    </div>
+
+</body>
+</html>
