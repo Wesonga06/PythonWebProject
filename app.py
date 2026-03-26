@@ -17,7 +17,6 @@ login_manager.init_app(app)
 login_manager.login_view = 'login' # Sends uninvited guests to the login page
 
 # 2. Database Models
-# Notice we added UserMixin here!
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
