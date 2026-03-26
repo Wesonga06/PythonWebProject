@@ -20,6 +20,7 @@ login_manager.login_view = 'login' # Sends uninvited guests to the login page
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
     
@@ -50,10 +51,11 @@ def home():
 def register():
     if request.method == "POST":
         username = request.form.get("username")
+        email = request.form.get("email")
         password = request.form.get("password")
 
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-        new_user = User(username=username, password=hashed_password)
+        new_user = User(username=username, email=email, password=hashed_password)
 
         db.session.add(new_user)
         db.session.commit()
@@ -92,15 +94,21 @@ def feed():
 @app.route("/create-post", methods=["GET", "POST"])
 @login_required
 def create_post():
+    # THE BOUNCER: If you aren't Wendy, you get kicked out!
+    if current_user.email != 'wendy@blog.com':
+        return "<h1>Access Denied! Only Wendy can write posts.</h1>"
+
     if request.method == "POST":
         post_title = request.form.get("title")
         post_content = request.form.get("content")
-
+        
         new_post = Post(title=post_title, content=post_content, author=current_user)
+        
         db.session.add(new_post)
         db.session.commit()
-
-        return redirect(url_for("feed"))
+        
+        return redirect(url_for('feed'))
+        
     return render_template("create_post.html")
 
 

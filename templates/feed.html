@@ -13,7 +13,11 @@
 
     <nav class="blog-nav">
         <a href="/feed" style="color: #4CAF50; border-bottom: 2px solid #4CAF50;">Home</a>
-        <a href="/create-post">Write Post</a>
+        
+        {% if user.email == 'wendy@blog.com' %}
+            <a href="/create-post">Write Post</a>
+        {% endif %}
+        
         <a href="#">About</a>
         <a href="/logout">Log Out ({{ user.username }})</a>
     </nav>
