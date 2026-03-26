@@ -23,7 +23,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
-    
+    comments = db.relationship('Comment', backref='author', lazy=True)
+    likes = db.relationship('Like', backref='author', lazy=True)
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,6 +32,22 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    comments = db.relationship('Comment', backref='post', lazy=True, cascade="all, delete-orphan")
+    likes = db.relationship('Like', backref='post', lazy=True, cascade="all, delete-orphan")
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(500), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+
+class Like(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)   
+
+
 
 # This tells Flask-Login how to find a user in the database
 @login_manager.user_loader
@@ -110,6 +127,37 @@ def create_post():
         return redirect(url_for('feed'))
         
     return render_template("create_post.html")
+
+@app.route("/like-post/<int:post_id>", methods=["POST"])
+@login_required
+def like_post(post_id):
+    post = Post.query.get(post_id)
+    like = Like.query.filter_by(author_id=current_user.id, post_id=post_id).first()
+
+    if not post:
+        return redirect(url_for('feed'))
+    elif like:
+        db.session.delete(like)
+        db.session.commit()
+    else:
+        new_like = Like(author_id=current_user.id, post_id=post.id)
+        db.session.add(new_like)
+        db.session.commit()
+
+    return redirect(url_for('feed'))
+
+@app.route("/add-comment/<int:post_id>", methods=["POST"])
+@login_required
+def add_comment(post_id):
+    text = request.form.get("text")
+
+    if text:
+        comment = Comment(text=text, author_id=current_user.id, post_id=post_id)
+        db.session.add(comment)
+        db.session.commit()
+
+    return redirect(url_for('feed'))
+
 
 
 # The Logout Route

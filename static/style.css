@@ -169,3 +169,17 @@ button[type="submit"] {
     background: #4CAF50; color: white; border: none; border-radius: 10px; cursor: pointer;
 }
 button[type="submit"]:hover { background: #2E7D32; }
+
+/* --- SOCIAL MEDIA ICONS --- */
+.social-icon {
+    width: 24px; /* Matches your old 24px font size */
+    height: 24px;
+    fill: #333; /* Icon color */
+    margin-right: 15px; /* Spaces the icons out */
+    transition: fill 0.3s ease;
+    vertical-align: middle;
+  }
+
+  .social-icon:hover {
+    fill: #007BFF; /* Makes them turn blue when you hover! */
+  }

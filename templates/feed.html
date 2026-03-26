@@ -26,8 +26,8 @@
         
         <main class="main-content">
             
-            {% for post in posts|reverse %} <article class="post">
-                    <img class="post-image" src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=800&q=80" alt="Blog Feature Image">
+            {% for post in posts|reverse %} 
+                <article class="post">
                     
                     <div class="post-content">
                         <div class="post-meta">
@@ -36,11 +36,42 @@
                         
                         <h2 class="post-title">{{ post.title }}</h2>
                         
-                        <p style="color: #666; line-height: 1.6;">
-                            {{ post.content[:150] }}...
-                        </p>
+                        <p style="color: #444; line-height: 1.6; white-space: pre-wrap;">{{ post.content }}</p>
                         
-                        <button class="read-more-btn">Continue Reading ➔</button>
+                        <div style="display: flex; gap: 15px; align-items: center; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+                            
+                            <form action="/like-post/{{ post.id }}" method="POST" style="margin: 0;">
+                                <button type="submit" style="background: none; border: none; color: #4CAF50; cursor: pointer; font-size: 16px; padding: 0; font-weight: bold;">
+                                    {% if current_user.id in post.likes|map(attribute='author_id')|list %}
+                                        💚 Liked ({{ post.likes|length }})
+                                    {% else %}
+                                        🤍 Like ({{ post.likes|length }})
+                                    {% endif %}
+                                </button>
+                            </form>
+                            
+                            <span style="color: #888; font-size: 14px; font-weight: bold;">💬 {{ post.comments|length }} Comments</span>
+                        </div>
+
+                        <div style="background: #f9fbf9; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #eee;">
+                            
+                            {% for comment in post.comments %}
+                                <div style="margin-bottom: 10px; font-size: 14px;">
+                                    <strong style="color: #2E7D32;">{{ comment.author.username }}:</strong> 
+                                    <span style="color: #333;">{{ comment.text }}</span>
+                                    <span style="color: #aaa; font-size: 11px; margin-left: 10px;">{{ comment.date_posted.strftime('%b %d') }}</span>
+                                </div>
+                            {% else %}
+                                <p style="font-size: 13px; color: #888; margin: 0 0 10px 0;">No comments yet. Be the first!</p>
+                            {% endfor %}
+
+                            <form action="/add-comment/{{ post.id }}" method="POST" style="display: flex; gap: 10px; margin-top: 15px; margin-bottom: 0;">
+                                <input type="text" name="text" placeholder="Write a comment..." required style="margin-bottom: 0; padding: 10px; flex: 1; border-radius: 20px;">
+                                <button type="submit" style="width: auto; padding: 8px 20px; font-size: 14px; border-radius: 20px;">Post</button>
+                            </form>
+                            
+                        </div>
+
                     </div>
                 </article>
             {% else %}
@@ -65,11 +96,27 @@
             </div>
 
             <div class="widget">
-                <h3>Follow Me</h3>
-                <p style="font-size: 24px; letter-spacing: 10px;">
-                    <a href="#">📷</a> <a href="#">🐦</a> <a href="#">✉️</a>
-                </p>
-            </div>
+    <h3>Follow Me</h3>
+    <p>
+        <a href="#" target="_blank" aria-label="Instagram">
+            <svg class="social-icon" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+        </a>
+
+        <a href="#" target="_blank" aria-label="X (Twitter)">
+            <svg class="social-icon" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 24.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+        </a>
+
+        <a href="mailto:your.email@gmail.com" aria-label="Email">
+            <svg class="social-icon" viewBox="0 0 24 24" style="margin-right: 0;">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+        </a>
+    </p>
+</div>
 
         </aside>
 
